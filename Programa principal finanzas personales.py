@@ -30,7 +30,7 @@ def necesidades():
     print("\nVamos a comenzar con tus gastos de Necesidades Básicas\n")
     print("Teclea \"fin\" para salir\n")
     basic = ""
-    global basicasdic
+    #global basicasdic
     basicasdic = {}
     while basic.lower() != "fin":
         #basic = input("Introduce concepto: ")
@@ -58,14 +58,18 @@ def necesidades():
         basicasdic[basic] = monto
         total_gastos = sum(basicasdic.values())
 
-    return(sueldo - total_gastos)
+    restante_bas = sueldo -  total_gastos
+    print(basicasdic)
+    return restante_bas, basicasdic
+    
+    #return(sueldo - total_gastos)
 
 #Funcion para calcular los gastos en Estilo de vida/gustos
 def estilo():
     print("\nVamos a comenzar con tus gastos de Estilo de vida/gustos\n")
     print("Teclea \"fin\" para salir\n")
     estilo = ""
-    global estilodic
+    #global estilodic
     estilodic = {}
     while estilo.lower() != "fin":
         #estilo = input("Introduce concepto: ")
@@ -92,8 +96,10 @@ def estilo():
 
         estilodic[estilo] = monto
         total_gastos = sum(estilodic.values())
+        restante_est = gasto_necesidades - total_gastos
 
-    return(gasto_necesidades - total_gastos)
+    return restante_est, estilodic
+    #return(gasto_necesidades - total_gastos)
 
 
 #Funcion para el ahorro
@@ -136,14 +142,14 @@ while True:
 
 
 #Invoca función de Necesidades básicas
-gasto_necesidades = necesidades()
+gasto_necesidades, basicasdic = necesidades()
 print(f"\nA tu sueldo, restándole estos gastos te queda: ${gasto_necesidades:.2f}")
 tabla_gastos(basicasdic)
 
 #Invoca función de Estilo de vida
-remanente_final = estilo()
+remanente_final, restante_dic = estilo()
 print(f"Esto te queda de tu sueldo sin estos gastos: ${remanente_final:.2f}")
-tabla_gastos(estilodic)
+tabla_gastos(restante_dic)
 
 print("De forma mínima y obligada, debes ahorrar el 20% de tu sueldo para:" + "\n"*2 + "Construir un fondo de emergencia\nPagar deudas\nO invertir para tu futuro\n")
 
