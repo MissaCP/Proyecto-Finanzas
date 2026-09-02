@@ -33,7 +33,16 @@ def necesidades():
     global basicasdic
     basicasdic = {}
     while basic.lower() != "fin":
-        basic = input("Introduce concepto: ")
+        #basic = input("Introduce concepto: ")
+        while True:
+            try:
+                basic = input("Introduce concepto: ")
+                if not basic.strip():
+                    raise ValueError("El concepto no puede estar vacío")
+                break
+            except ValueError as e:
+                print(f"Error: {e}")
+                
         if basic.lower() == "fin":
             break
         
@@ -59,7 +68,16 @@ def estilo():
     global estilodic
     estilodic = {}
     while estilo.lower() != "fin":
-        estilo = input("Introduce concepto: ")
+        #estilo = input("Introduce concepto: ")
+        while True:
+            try:
+                estilo = input("Introduce concepto: ")
+                if not estilo.strip():
+                    raise ValueError("El concepto no puede estar vacío")
+                break
+            except ValueError as e:
+                print(f"Error: {e}")
+
         if estilo.lower() == "fin":
             break
         
@@ -115,7 +133,7 @@ while True:
                 break
             except ValueError:
                 print("Error: Debes ingresar un número entero o decimal")
-#print(f"${sueldo:.2f}")
+
 
 #Invoca función de Necesidades básicas
 gasto_necesidades = necesidades()
@@ -138,12 +156,16 @@ ahorro(remanente_final)
 
 
 #detalles
-#agregarle try except a monto
+#hecho#agregarle try except a monto
 
+
+#manejo de errores
+#bucle para que si introduces un monto mayor al restante de tu sueldo no te deje
+#que te pregunte si quieres modificar algun monto
 
 #codigo que puedo hacer
-#continuar con el ahorro, que te diga cuanto puedes ahorrar y si es el 20 o mas
-#ademas si quieres ahorrar eso u otra cantidad
+#hecho#continuar con el ahorro, que te diga cuanto puedes ahorrar y si es el 20 o mas
+#hecho#ademas si quieres ahorrar eso u otra cantidad
 
 #codigo complejo
 #agregarle flexibilidad, salario pagado por semana, quincena
