@@ -40,7 +40,9 @@ def necesidades():
                 break
             except ValueError as e:
                 print(f"Error: {e}")
-                
+        if basic.lower() in basicasdic:
+            print(f"El concepto '{basic}' ya está en tus gastos, pon otro nombre")
+            continue            
         if basic.lower() == "fin":
             break
         
@@ -53,9 +55,9 @@ def necesidades():
                 print("Error: Debes ingresar un número entero o decimal")
 
 
-        basicasdic[basic] = monto
+        basicasdic[basic.lower()] = monto
         total_gastos = sum(basicasdic.values())
-
+        
     restante_bas = sueldo -  total_gastos
     return restante_bas, basicasdic
        
@@ -78,6 +80,9 @@ def estilo():
 
         if estilo.lower() == "fin":
             break
+        if estilo.lower() in estilodic:
+            print(f"El concepto '{estilo}' ya está en tus gastos, pon otro nombre")
+            continue 
         
         while True:
             try:
@@ -88,7 +93,7 @@ def estilo():
                 print("Error: Debes ingresar un número entero o decimal")
 
 
-        estilodic[estilo] = monto
+        estilodic[estilo.lower()] = monto
         total_gastos = sum(estilodic.values())
         restante_est = gasto_necesidades - total_gastos
 
