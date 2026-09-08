@@ -49,10 +49,12 @@ def necesidades():
         while True:
             try:
                 monto = float(input("Introduce monto: "))
+                if monto <= 0:
+                    raise ValueError
 
                 break
             except ValueError:
-                print("Error: Debes ingresar un número entero o decimal")
+                print("Error: Debes ingresar un número entero o decimal y mayor a 1")
 
 
         basicasdic[basic.lower()] = monto
@@ -87,10 +89,12 @@ def estilo():
         while True:
             try:
                 monto = float(input("Introduce monto: "))
-
+                if monto <= 0:
+                    raise ValueError
+                
                 break
             except ValueError:
-                print("Error: Debes ingresar un número entero o decimal")
+                print("Error: Debes ingresar un número entero o decimal y mayor a 1")
 
 
         estilodic[estilo.lower()] = monto
@@ -126,13 +130,20 @@ def ahorro(x):
 #Introduce sueldo
 print("Bienvenido... ")
 sueldo = float()
-while True:
-            try:
-                sueldo = float(input("Introduce tu sueldo: $"))
+#while sueldo >=
 
-                break
-            except ValueError:
-                print("Error: Debes ingresar un número entero o decimal")
+while True:
+        try:
+            sueldo = float(input("Introduce tu sueldo: $"))
+            if sueldo <= 0:
+                    raise ValueError
+            break
+        
+        except ValueError:
+            print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
+           
+
+        
 
 
 #Invoca función de Necesidades básicas
