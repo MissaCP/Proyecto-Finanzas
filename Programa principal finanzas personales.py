@@ -24,7 +24,7 @@ def tabla_gastos(x):
 
     print("|---" + "-" * conceptlong + "-" * conceptvalue + "----|\n")
 
-
+    
 #Funcion para calcular los gastos en Necesidades Básicas
 def necesidades():
     print("\nVamos a comenzar con tus gastos de Necesidades Básicas\n")
@@ -123,8 +123,48 @@ def ahorro(x):
             print(f"\nVamos a ahorrar la módica cantidad de ${ahorrare:.2f}")
      
 
+#Funcion para editar o eliminar gastos
+def editar(x):
+    print("Tus gastos son correctos o quieres eliminar/editar algun concepto?\n")
+    
+    while True:
+            print("1. Continuar \n2. Editar \n3. Eliminar\n")
+            try:
+                opciones1 = int(input("Introduce opción: "))
+                if opciones1 not in [1, 2, 3]:
+                    raise ValueError
+                
+            
+            except ValueError:
+                print("\nIntroduce un número de opción válido: ")
+                continue
 
+            if opciones1 == 1:
+                print("\nGenial, vamos allá!\n")
+                break
+            
+            elif opciones1 == 2:
+                concepto = str(input("Cuál es el concepto que quieres editar?: "))
+                #otro while donde pregunte si solo el monto o el nombre
+                
+            elif opciones1 == 3:
+                concepto = input("Dame el nombre del concepto a eliminar: ")
+                if concepto in x:
+                    del x[concepto]
+                    print(f"\nEl concepto '{concepto}' ha sido eliminado\n")
+                else:
+                    print("\nEse concepto no existe en tus gastos\n")
 
+                    
+                tabla_gastos(basicasdic)
+                continue
+
+                
+            return x
+            
+                    
+            
+#----------------------------------------------------------------------------------#
 
 #Codigo
 #Introduce sueldo
@@ -135,7 +175,7 @@ sueldo = float()
 while True:
         try:
             sueldo = float(input("Introduce tu sueldo: $"))
-            if sueldo <= 0:
+            if sueldo < 1:
                     raise ValueError
             break
         
@@ -150,6 +190,12 @@ while True:
 gasto_necesidades, basicasdic = necesidades()
 print(f"\nA tu sueldo, restándole estos gastos te queda: ${gasto_necesidades:.2f}")
 tabla_gastos(basicasdic)
+
+#Invocar funcion de preguntar si continuar o editar
+editar(basicasdic)
+
+
+    
 
 #Invoca función de Estilo de vida
 remanente_final, restante_dic = estilo()
