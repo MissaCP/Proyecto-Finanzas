@@ -1,7 +1,7 @@
 #Programa administrador de Finanzas Personales
 
 #Funcion para mostrar gastos en una tabla
-#Esta funcion toma el diccionario de gastos como argumento para hacer la tabla
+#Esta funcion toma el diccionario de gastos como argumento para hacer la tabla-------------
 def tabla_gastos(x):
     conceptlong = 0
     for palabra in x:
@@ -25,7 +25,7 @@ def tabla_gastos(x):
     print("|---" + "-" * conceptlong + "-" * conceptvalue + "----|\n")
 
     
-#Funcion para calcular los gastos en Necesidades Básicas
+#Funcion para calcular los gastos en Necesidades Básicas------------------------------------
 def necesidades():
     print("\nVamos a comenzar con tus gastos de Necesidades Básicas\n")
     print("Teclea \"fin\" para salir\n")
@@ -56,15 +56,15 @@ def necesidades():
             except ValueError:
                 print("Error: Debes ingresar un número entero o decimal y mayor a 1")
 
-
         basicasdic[basic.lower()] = monto
+       
         total_gastos = sum(basicasdic.values())
         
     restante_bas = sueldo -  total_gastos
     return restante_bas, basicasdic
        
 
-#Funcion para calcular los gastos en Estilo de vida/gustos
+#Funcion para calcular los gastos en Estilo de vida/gustos-------------------------------------
 def estilo():
     print("\nVamos a comenzar con tus gastos de Estilo de vida/gustos\n")
     print("Teclea \"fin\" para salir\n")
@@ -103,7 +103,7 @@ def estilo():
 
     return restante_est, estilodic
     
-#Funcion para el ahorro
+#Funcion para el ahorro------------------------------------------------------------------------
 
 def ahorro(x):
 
@@ -114,7 +114,7 @@ def ahorro(x):
     else:
         print("\nTu si puedes ahorrar eso, ¡felicidades!")
 
-    global ahorrare
+    
     ahorrare = float(input(f"\nDame una cantidad igual o menor a ${remanente_final:.2f}, que es lo que te sobra: $"))
     while ahorrare > remanente_final or ahorrare < 1:
         ahorrare = float(input(f"\nLa cantidad debe ser igual o menor a ${remanente_final:.2f} y no debe ser menor que 1: $"))
@@ -123,12 +123,12 @@ def ahorro(x):
             print(f"\nVamos a ahorrar la módica cantidad de ${ahorrare:.2f}")
      
 
-#Funcion para editar o eliminar gastos
+#Funcion para editar o eliminar gastos--------------------------------------------------------
 def editar(x):
     print("Tus gastos son correctos o quieres eliminar/editar algun concepto?\n")
     
     while True:
-            print("1. Continuar \n2. Editar \n3. Eliminar\n")
+            print("1. Continuar \n2. Editar/Agregar \n3. Eliminar\n")
             try:
                 opciones1 = int(input("Introduce opción: "))
                 if opciones1 not in [1, 2, 3]:
@@ -142,10 +142,30 @@ def editar(x):
             if opciones1 == 1:
                 print("\nGenial, vamos allá!\n")
                 break
-            
+
+             
             elif opciones1 == 2:
-                concepto = str(input("Cuál es el concepto que quieres editar?: "))
-                #otro while donde pregunte si solo el monto o el nombre
+                while True:
+                    try:
+                        concepto = str(input("Introduce concepto existente o nuevo: "))
+                        if not concepto.strip():
+                            raise ValueError("El concepto no puede estar vacío")
+                        break
+                    except ValueError as e:
+                        print(f"Error: {e}")
+                
+                while True:
+                    try:
+                        monto = float(input("Introduce monto: "))
+                        if monto <= 0:
+                            raise ValueError
+                        
+                        break
+                    except ValueError:
+                        print("Error: Debes ingresar un número entero o decimal y mayor a 1")
+                
+                x[concepto] = monto
+                print("exito")
                 
             elif opciones1 == 3:
                 concepto = input("Dame el nombre del concepto a eliminar: ")
@@ -156,13 +176,9 @@ def editar(x):
                     print("\nEse concepto no existe en tus gastos\n")
 
                     
-                tabla_gastos(basicasdic)
-                continue
-
-                
-            return x
-            
-                    
+            tabla_gastos(x)
+            continue               
+                           
             
 #----------------------------------------------------------------------------------#
 
@@ -195,12 +211,13 @@ tabla_gastos(basicasdic)
 editar(basicasdic)
 
 
-    
-
 #Invoca función de Estilo de vida
 remanente_final, restante_dic = estilo()
 print(f"Esto te queda de tu sueldo sin estos gastos: ${remanente_final:.2f}")
 tabla_gastos(restante_dic)
+
+#Invocar funcion de preguntar si continuar o editar
+editar(restante_dic)
 
 print("De forma mínima y obligada, debes ahorrar el 20% de tu sueldo para:" + "\n"*2 + "Construir un fondo de emergencia\nPagar deudas\nO invertir para tu futuro\n")
 
@@ -213,12 +230,12 @@ ahorro(remanente_final)
 
 
 #detalles
-#hecho#agregarle try except a monto
+#HECHO agregarle try except a monto
 
 
 #manejo de errores
 #bucle para que si introduces un monto mayor al restante de tu sueldo no te deje
-#que te pregunte si quieres modificar algun monto
+#HECHO que te pregunte si quieres modificar algun monto
 
 #codigo que puedo hacer
 #hecho#continuar con el ahorro, que te diga cuanto puedes ahorrar y si es el 20 o mas
