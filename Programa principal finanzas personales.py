@@ -24,26 +24,30 @@ def tabla_gastos(x):
 
     print("|---" + "-" * conceptlong + "-" * conceptvalue + "----|\n")
 
-    
-#Funcion para calcular los gastos en Necesidades Básicas------------------------------------
-def necesidades():
-    print("\nVamos a comenzar con tus gastos de Necesidades Básicas\n")
+
+
+
+
+#Funcion generadora de diccionario--------------------------------------------------------
+
+def diccionario_gastos():
+    print("\nVamos a comenzar, me dices tus gastos\n")
     print("Teclea \"fin\" para salir\n")
-    basic = ""
-    basicasdic = {}
-    while basic.lower() != "fin":
+    clave = ""
+    diccionario = {}
+    while clave.lower() != "fin":
         while True:
             try:
-                basic = input("Introduce concepto: ")
-                if not basic.strip():
+                clave = input("Introduce concepto: ")
+                if not clave.strip():
                     raise ValueError("El concepto no puede estar vacío")
                 break
             except ValueError as e:
                 print(f"Error: {e}")
-        if basic.lower() in basicasdic:
-            print(f"El concepto '{basic}' ya está en tus gastos, pon otro nombre")
+        if clave.lower() in diccionario:
+            print(f"El concepto '{clave}' ya está en tus gastos, pon otro nombre")
             continue            
-        if basic.lower() == "fin":
+        if clave.lower() == "fin":
             break
         
         while True:
@@ -53,75 +57,34 @@ def necesidades():
                     raise ValueError
 
                 break
+            
             except ValueError:
                 print("Error: Debes ingresar un número entero o decimal y mayor a 1")
 
-        basicasdic[basic.lower()] = monto
+        diccionario[clave.lower()] = monto
        
-        total_gastos = sum(basicasdic.values())
-        
-    restante_bas = sueldo -  total_gastos
-    return restante_bas, basicasdic
-       
+    return diccionario
 
-#Funcion para calcular los gastos en Estilo de vida/gustos-------------------------------------
-def estilo():
-    print("\nVamos a comenzar con tus gastos de Estilo de vida/gustos\n")
-    print("Teclea \"fin\" para salir\n")
-    estilo = ""
-    estilodic = {}
-    while estilo.lower() != "fin":
-        while True:
-            try:
-                estilo = input("Introduce concepto: ")
-                if not estilo.strip():
-                    raise ValueError("El concepto no puede estar vacío")
-                break
-            except ValueError as e:
-                print(f"Error: {e}")
-
-        if estilo.lower() == "fin":
-            break
-        if estilo.lower() in estilodic:
-            print(f"El concepto '{estilo}' ya está en tus gastos, pon otro nombre")
-            continue 
-        
-        while True:
-            try:
-                monto = float(input("Introduce monto: "))
-                if monto <= 0:
-                    raise ValueError
-                
-                break
-            except ValueError:
-                print("Error: Debes ingresar un número entero o decimal y mayor a 1")
-
-
-        estilodic[estilo.lower()] = monto
-        total_gastos = sum(estilodic.values())
-        restante_est = gasto_necesidades - total_gastos
-
-    return restante_est, estilodic
     
 #Funcion para el ahorro------------------------------------------------------------------------
 
 def ahorro(x):
 
-    ahorro20 = sueldo *.2
-    if ahorro20 > x:
-        print(f"\nLamentablemente no puedes ahorrar el 20%, que es ${ahorro20:.2f}")
+    ahorro_20 = sueldo *.2
+    if ahorro_20 > x:
+        print(f"\nLamentablemente no puedes ahorrar el 20%, que es ${ahorro_20:.2f}")
         print("\nDeberías: Conseguir mas ingresos o reducir tus gustos")
     else:
         print("\nTu si puedes ahorrar eso, ¡felicidades!")
 
-    
-    ahorrare = float(input(f"\nDame una cantidad igual o menor a ${remanente_final:.2f}, que es lo que te sobra: $"))
-    while ahorrare > remanente_final or ahorrare < 1:
-        ahorrare = float(input(f"\nLa cantidad debe ser igual o menor a ${remanente_final:.2f} y no debe ser menor que 1: $"))
+    ahorrare = float(input(f"\nDame una cantidad igual o menor a ${x:.2f}, que es lo que te sobra: $"))
+    while ahorrare > x or ahorrare < 1:
+        ahorrare = float(input(f"\nLa cantidad debe ser igual o menor a ${x:.2f} y no debe ser menor que 1: $"))
 
     else:
             print(f"\nVamos a ahorrar la módica cantidad de ${ahorrare:.2f}")
-     
+
+    return ahorrare     
 
 #Funcion para editar o eliminar gastos--------------------------------------------------------
 def editar(x):
@@ -177,7 +140,14 @@ def editar(x):
 
                     
             tabla_gastos(x)
-            continue               
+            continue
+
+
+#Funcion para sacar el porcentaje------------------------------------------------------
+def porcentaje(x):
+    porciento = int(x * 100 / sueldo)
+    
+    return porciento
                            
             
 #----------------------------------------------------------------------------------#
@@ -186,7 +156,6 @@ def editar(x):
 #Introduce sueldo
 print("Bienvenido... ")
 sueldo = float()
-#while sueldo >=
 
 while True:
         try:
@@ -197,35 +166,79 @@ while True:
         
         except ValueError:
             print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
-           
+#Invoca funciones, genera diccionario---------
+nb = "NECESITADES BASICAS"
+print(f"\n{nb}")
+dc_gastos = diccionario_gastos()
 
-        
+#Muestra en forma de tabla
+tabla_gastos(dc_gastos)
+
+#Edita diccionario
+editar(dc_gastos)
+
+#Muestra suma de valores de diccionario
+suma_gastos = sum(dc_gastos.values())
+print(f"Tus gastos de {nb} son de ${suma_gastos:.2f}")
+
+#Invoca funciones, genera diccionario---------
+ev = "GUSTOS / ESTILO DE VIDA"
+print(f"\n{ev}")
+dc_estilo = diccionario_gastos()
+
+#Muestra en forma de tabla
+tabla_gastos(dc_estilo)
+
+#Edita diccionario
+editar(dc_estilo)
+
+#Muestra suma de valores de diccionario
+suma_estilo = sum(dc_estilo.values())
+print(f"Tus gastos de {ev} son de ${suma_estilo:.2f}")
+
+#Cuanto queda libre
+remanente = sueldo - suma_gastos - suma_estilo
+ahorro_v = ahorro(remanente)
+
+#Imprime porcentajes
+print("Así se ven tus finanzas")
+gastos_porcentaje = porcentaje(suma_gastos)
+print(f"Tus Necesidades Básicas: {gastos_porcentaje}%")
+
+estilo_porcentaje = porcentaje(suma_estilo)
+print(f"Tus Gustos / Estilo de vida: {estilo_porcentaje}%")
+
+ahorro_porcentaje = porcentaje(ahorro_v)
+print(f"Tu ahorro: {ahorro_porcentaje}%")
+
+#Guardar datos en un diccionario----------------------------
+perfil_financiero = {"suedo": sueldo, "necesidades": dc_gastos, "estilo": dc_estilo}
 
 
-#Invoca función de Necesidades básicas
-gasto_necesidades, basicasdic = necesidades()
-print(f"\nA tu sueldo, restándole estos gastos te queda: ${gasto_necesidades:.2f}")
-tabla_gastos(basicasdic)
-
-#Invocar funcion de preguntar si continuar o editar
-editar(basicasdic)
-
-
-#Invoca función de Estilo de vida
-remanente_final, restante_dic = estilo()
-print(f"Esto te queda de tu sueldo sin estos gastos: ${remanente_final:.2f}")
-tabla_gastos(restante_dic)
-
-#Invocar funcion de preguntar si continuar o editar
-editar(restante_dic)
-
-print("De forma mínima y obligada, debes ahorrar el 20% de tu sueldo para:" + "\n"*2 + "Construir un fondo de emergencia\nPagar deudas\nO invertir para tu futuro\n")
-
-ahorro20 = sueldo * .2
-print(f"Esto es lo que debes ahorrar de tu sueldo ${ahorro20:.2f}" )
-
-#Invoca funcion de ahorro
-ahorro(remanente_final)
+###Invoca función de Necesidades básicas------------------------------
+##gasto_necesidades, basicasdic = necesidades()
+##print(f"\nA tu sueldo, restándole estos gastos te queda: ${gasto_necesidades:.2f}")
+##tabla_gastos(basicasdic)
+##
+###Invocar funcion de preguntar si continuar o editar-----------------
+##editar(basicasdic)
+##
+##
+###Invoca función de Estilo de vida------------------------------------
+##remanente_final, restante_dic = estilo()
+##print(f"Esto te queda de tu sueldo sin estos gastos: ${remanente_final:.2f}")
+##tabla_gastos(restante_dic)
+##
+###Invocar funcion de preguntar si continuar o editar-------------------
+##editar(restante_dic)
+##
+##print("De forma mínima y obligada, debes ahorrar el 20% de tu sueldo para:" + "\n"*2 + "Construir un fondo de emergencia\nPagar deudas\nO invertir para tu futuro\n")
+##
+##ahorro20 = sueldo * .2
+##print(f"Esto es lo que debes ahorrar de tu sueldo ${ahorro20:.2f}" )
+##
+###Invoca funcion de ahorro
+##ahorro(remanente_final)
 
 
 
