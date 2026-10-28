@@ -30,12 +30,18 @@ def tabla_gastos(x):
 
 #Funcion generadora de diccionario--------------------------------------------------------
 
-def diccionario_gastos():
+def diccionario_gastos(x):
     print("\nVamos a comenzar, me dices tus gastos\n")
     print("Teclea \"fin\" para salir\n")
     clave = ""
     diccionario = {}
+    acumulado = 1
     while clave.lower() != "fin":
+
+        if sum(diccionario.values()) >= x:
+            print("No puedes ingresar mas conceptos, ya cubriste el saldo, prueba editar o borrar algunos")
+            break
+        
         while True:
             try:
                 clave = input("Introduce concepto: ")
@@ -44,9 +50,11 @@ def diccionario_gastos():
                 break
             except ValueError as e:
                 print(f"Error: {e}")
+                
         if clave.lower() in diccionario:
             print(f"El concepto '{clave}' ya está en tus gastos, pon otro nombre")
-            continue            
+            continue
+                        
         if clave.lower() == "fin":
             break
         
@@ -56,6 +64,12 @@ def diccionario_gastos():
                 if monto <= 0:
                     raise ValueError
 
+                acumulado = sum(diccionario.values()) + monto
+
+                if acumulado > x:
+                    print(f"Error: Este gasto supera tu sueldo. Te queda disponibles ${x - sum(diccionario.values()):.2f}")
+                    continue
+                
                 break
             
             except ValueError:
@@ -167,9 +181,9 @@ while True:
         except ValueError:
             print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
 #Invoca funciones, genera diccionario---------
-nb = "NECESITADES BASICAS"
+nb = "NECESIDADES BASICAS"
 print(f"\n{nb}")
-dc_gastos = diccionario_gastos()
+dc_gastos = diccionario_gastos(sueldo)
 
 #Muestra en forma de tabla
 tabla_gastos(dc_gastos)
@@ -181,10 +195,13 @@ editar(dc_gastos)
 suma_gastos = sum(dc_gastos.values())
 print(f"Tus gastos de {nb} son de ${suma_gastos:.2f}")
 
+#Guarda en una variable el resultado de la resta de sueldo - necesidades
+sobra = (sueldo-sum(dc_gastos.values()))
+
 #Invoca funciones, genera diccionario---------
 ev = "GUSTOS / ESTILO DE VIDA"
 print(f"\n{ev}")
-dc_estilo = diccionario_gastos()
+dc_estilo = diccionario_gastos(sobra)
 
 #Muestra en forma de tabla
 tabla_gastos(dc_estilo)
