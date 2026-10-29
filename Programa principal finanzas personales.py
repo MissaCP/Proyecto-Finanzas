@@ -176,10 +176,32 @@ while True:
             sueldo = float(input("Introduce tu sueldo: $"))
             if sueldo < 1:
                     raise ValueError
-            break
+            
         
         except ValueError:
             print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
+
+            continue
+             
+        while True:
+                print(f"\nGanas ${sueldo:.2f}? Escribe 'S' para Si, o 'N' para No:\n")
+                seguro = input(str())
+                
+                if seguro.lower() == "s" or seguro.lower() == "si":
+                    break
+                
+                if not "n" in seguro.lower():
+                    print("\nNo comprendo lo que dices\n")
+                    continue
+                else:
+                    print("\nVa de nuevo\n")
+                    break
+                
+        if seguro.lower() == "n":
+            continue
+        
+        break
+            
 #Invoca funciones, genera diccionario---------
 nb = "NECESIDADES BASICAS"
 print(f"\n{nb}")
@@ -195,8 +217,12 @@ editar(dc_gastos)
 suma_gastos = sum(dc_gastos.values())
 print(f"Tus gastos de {nb} son de ${suma_gastos:.2f}")
 
+
+
 #Guarda en una variable el resultado de la resta de sueldo - necesidades
 sobra = (sueldo-sum(dc_gastos.values()))
+
+
 
 #Invoca funciones, genera diccionario---------
 ev = "GUSTOS / ESTILO DE VIDA"
