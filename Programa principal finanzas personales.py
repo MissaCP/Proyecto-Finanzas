@@ -184,7 +184,7 @@ while True:
             continue
              
         while True:
-                print(f"\nGanas ${sueldo:.2f}? Escribe 'S' para Si, o 'N' para No:\n")
+                print(f"\n¿Ganas ${sueldo:.2f}? Escribe 'S' para Si, o 'N' para No:\n")
                 seguro = input(str())
                 
                 if seguro.lower() == "s" or seguro.lower() == "si":
@@ -197,7 +197,7 @@ while True:
                     print("\nVa de nuevo\n")
                     break
                 
-        if seguro.lower() == "n":
+        if seguro.lower() == "n" or seguro.lower() == "no":
             continue
         
         break
@@ -254,8 +254,22 @@ print(f"Tus Gustos / Estilo de vida: {estilo_porcentaje}%")
 ahorro_porcentaje = porcentaje(ahorro_v)
 print(f"Tu ahorro: {ahorro_porcentaje}%")
 
+#Importar json y nombrar al perfil----------------------------
+import json
+
+#print("Desea guardar los datos?")
+
+nombre_usuario = input("Dame un nombre para guardar tu perfil: ").strip().lower()
+nombre_archivo = f"{nombre_usuario}.json"
+
 #Guardar datos en un diccionario----------------------------
 perfil_financiero = {"suedo": sueldo, "necesidades": dc_gastos, "estilo": dc_estilo}
+
+#Guardamos el en el archivo JSON
+with open(nombre_archivo, "w") as archivo:
+    json.dump(perfil_financiero, archivo, indent=4)
+
+print(f"¡Listo! Tus datos se han guardado en {nombre_archivo}")
 
 
 ###Invoca función de Necesidades básicas------------------------------
