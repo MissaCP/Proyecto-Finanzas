@@ -1,5 +1,44 @@
 #Programa administrador de Finanzas Personales
 
+import json
+import os
+
+#funcion para generar el sueldo----------------------------------------------------------
+def salario():
+    sueldo = float()
+
+    while True:
+            try:
+                sueldo = float(input("Introduce tu sueldo: $"))
+                if sueldo < 1:
+                        raise ValueError
+                
+            
+            except ValueError:
+                print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
+
+                continue
+                 
+            while True:
+                    print(f"\n¿Ganas ${sueldo:.2f}? (S/N):")
+                    seguro = input(str())
+                    
+                    if seguro.lower() == "s" or seguro.lower() == "si":
+                        break
+                    
+                    if not "n" in seguro.lower():
+                        print("\nNo comprendo lo que dices\n")
+                        continue
+                    else:
+                        print("\nVa de nuevo\n")
+                        break
+                    
+            if seguro.lower() == "n" or seguro.lower() == "no":
+                continue
+            
+            break
+    return sueldo
+            
 #Funcion para mostrar gastos en una tabla
 #Esta funcion toma el diccionario de gastos como argumento para hacer la tabla-------------
 def tabla_gastos(x):
@@ -164,44 +203,35 @@ def porcentaje(x):
     return porciento
                            
             
-#----------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
 
 #Codigo
-#Introduce sueldo
-print("Bienvenido... ")
-sueldo = float()
+print("\nBienvenido a tu Gestor de Finanzas Personales...\n")
 
+#Cargar perfil-----------------------------------------------------------------#
 while True:
-        try:
-            sueldo = float(input("Introduce tu sueldo: $"))
-            if sueldo < 1:
-                    raise ValueError
-            
-        
-        except ValueError:
-            print("Error: Debes ingresar un número entero o decimal, y mayor a 1")
+    cargar = input("¿Ya cuentas con un perfil financiero en este programa? (S/N): ").strip().lower()
 
-            continue
-             
-        while True:
-                print(f"\n¿Ganas ${sueldo:.2f}? Escribe 'S' para Si, o 'N' para No:\n")
-                seguro = input(str())
-                
-                if seguro.lower() == "s" or seguro.lower() == "si":
-                    break
-                
-                if not "n" in seguro.lower():
-                    print("\nNo comprendo lo que dices\n")
-                    continue
-                else:
-                    print("\nVa de nuevo\n")
-                    break
-                
-        if seguro.lower() == "n" or seguro.lower() == "no":
-            continue
+    if cargar == "s" or cargar == "si":
+        nombre_usuario = input("Introduce tu nombre de usuario: ").strip().lower()
+        nombre_archivo = f"{nombre_usuario}.json"
+        print("Cargando...")
+        with open(nombre_archivo, "r") as archivo:
+            perfil_financiero = json.load(archivo)
         
+
+    elif cargar == "n" or cargar == "no":
+        print("continuemos")
         break
-            
+    else:
+        print("No comprendo esa entrada")
+        continue
+    
+
+#Invoca funcion de salario------------------------------------------------------------------#
+
+sueldo = salario()
+           
 #Invoca funciones, genera diccionario---------
 nb = "NECESIDADES BASICAS"
 print(f"\n{nb}")
@@ -255,9 +285,8 @@ ahorro_porcentaje = porcentaje(ahorro_v)
 print(f"Tu ahorro: {ahorro_porcentaje}%")
 
 #Importar json y nombrar al perfil----------------------------
-import json
 
-#print("Desea guardar los datos?")
+#print("¿Desea guardar los datos?")-----PENDIENTE
 
 nombre_usuario = input("Dame un nombre para guardar tu perfil: ").strip().lower()
 nombre_archivo = f"{nombre_usuario}.json"
