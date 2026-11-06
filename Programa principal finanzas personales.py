@@ -215,13 +215,19 @@ while True:
     if cargar == "s" or cargar == "si":
         nombre_usuario = input("Introduce tu nombre de usuario: ").strip().lower()
         nombre_archivo = f"{nombre_usuario}.json"
-        print("Cargando...")
-        with open(nombre_archivo, "r") as archivo:
-            perfil_financiero = json.load(archivo)
         
+        if os.path.exists(nombre_archivo):
+            print("Cargando...")
+            with open(nombre_archivo, "r") as archivo:
+                perfil_financiero = json.load(archivo)
+                print("Proceso completado\n")
+                break
+        else:
+            print(f"\nNo encontré ningún archivo con el nombre '{nombre_usuario}'. Intenta nuevamente.\n")
+            continue
 
     elif cargar == "n" or cargar == "no":
-        print("continuemos")
+        print("\nVamos a comenzar\n")
         break
     else:
         print("No comprendo esa entrada")
